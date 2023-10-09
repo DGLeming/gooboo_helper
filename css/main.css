@@ -1,0 +1,18 @@
+.form_time_input, .form_time_text {
+	display: inline;
+	margin-right: 15px;
+}
+.submit_calculation {
+	margin: 10px 0;
+}
+.calculation_row {
+	margin-bottom: 20px;
+}
+
+.calculation_block {
+	display: inline-block;
+}
+.result_block {
+	display: inline-block;
+	vertical-align: top;
+}
