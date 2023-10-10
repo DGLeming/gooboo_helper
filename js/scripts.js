@@ -38,14 +38,64 @@ function calculateOvergrowth () {
 	}
 }
 
+function switchFaithData (ttype) {
+	if(ttype == "Manual"){
+		document.getElementById("manual-data").style.display = "block";
+		document.getElementById("file-data").style.display = "none";
+	} else if (ttype == "File"){
+		document.getElementById("manual-data").style.display = "none";
+		document.getElementById("file-data").style.display = "block";
+	}
+}
+
+
+var jsonObj;
+$(document).on('change', '.form-faith-file', function(event) {
+  var reader = new FileReader();
+
+  reader.onload = function(event) {
+    jsonObj = JSON.parse(event.target.result);
+  }
+
+  reader.readAsText(event.target.files[0]);
+});
+
 function calculateFaith() {
-	faithGain = parseFloat(document.getElementById("faithGain").value);
-	faithCap = parseFloat(document.getElementById("faithCap").value);
-	faithNow = parseInt(document.getElementById("faithNow").value);
+	if(jsonObj === undefined){
+		faithGain = parseFloat(document.getElementById("faithGain").value);
+		faithCap = parseFloat(document.getElementById("faithCap").value);
+		faithNow = parseInt(document.getElementById("faithNow").value);
+	} else {
+		faithGain = 0;
+		for(i = 1; i <= jsonObj["upgrade"]["village_church"].level; i++)
+			faithGain += i*0.04;
+		
+		faithGain = faithGain;
+
+		faithCap = 50;
+		for(i = 0; i < jsonObj["upgrade"]["village_deepWorship"].level; i++)
+			faithCap *= 1.5;
+
+		faithNow = Math.floor(jsonObj["currency"]["village_faith"]);
+
+		faithPremiumMulti = [1.25, 1.2, 1.166, 1.142, 1.125, 1.111, 1.1, 1.09, 1.083, 1.076, 1.071];
+		villagePremiumBought = jsonObj["upgrade"]["village_moreFaith"].level;
+		for(i = 0; i < villagePremiumBought; i++){
+			faithGain *= faithPremiumMulti[i];
+			faithCap *= faithPremiumMulti[i];
+		}
+
+	}
+
+	console.log(faithGain);
+	console.log(faithCap);
+	console.log(faithNow);
+
+
 	faithNeeded = parseInt(document.getElementById("faithNeeded").value);
 	overCap = Math.floor(faithNow/faithCap);
+	time = 0;
 	if(faithNow < faithNeeded && faithNeeded > 0 && faithNow >= 0){
-		time = 0;
 		current = faithNow;
 		while(current < faithNeeded){
 			if(current + faithCap < faithNeeded){

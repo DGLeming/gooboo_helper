@@ -13,28 +13,7 @@
         <link href="css/main.css" rel="stylesheet" />
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">GooBoo helper</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="overgrowth.html">Overgrowth</a></li>
-                        <li class="nav-item"><a class="nav-link" href="faith.html">Faith</a></li>
-                        <!--<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>-->
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <?php include 'ui/navbar.php';?>
         <!-- Page content-->
         <div class="container">
         	<div style="text-align: center;">
@@ -47,7 +26,7 @@
 					<div class="calculation_row">
 						<h5>Insert how many grow cycles you want to calculate</h5>
 						<input class="form-control" type="number" id="cycles" value="0">
-					</div>			
+					</div>  			
 					<div class="calculation_row">
 						<h5>Insert how long does crop take to grow</h5>
 						<input class="form-control w-25 form_time_input ms-2" type="number" id="grow_hours" value="0"><h5 class="form_time_text ms-2">hours</h5>
@@ -60,13 +39,12 @@
 					<h3>Calculation results</h3>
 				</div>
 			</div>
-            <div class="footer mt-5" style="text-align: center;">
-                <h5>Note: this is fan made content for the game <a href="https://tendsty.github.io/gooboo/">GOOBOO</a> and the author of it @Tendsty. For more information join <a href="https://discord.gg/SQ2zFfrxXT">official game discord</a></h5>
-            </div>
+            <?php include 'ui/footer.php';?>
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
+        <script src="js/jquery.js"></script>
         <script src="js/scripts.js"></script>
     </body>
 </html>
