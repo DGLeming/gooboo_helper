@@ -17,8 +17,8 @@
         <!-- Page content-->
         <div class="container">
         	<div style="text-align: center;">
-	        	<div class="w-25 calculation_block mx-3">
-					<h2>Faith calculator</h2>
+	        	<div class="w-lg-40 w-sm-100 calculation_block">
+					<h1>Faith calculator</h1>
                     <button class="w-50 btn btn-sm btn-outline-secondary submit_calculation" onclick="switchFaithData('Manual')">Manual</button>
                     <button class="w-50 btn btn-sm btn-info submit_calculation" onclick="switchFaithData('File')">By file</button>
                     <div id="manual-data">
@@ -47,8 +47,8 @@
                     </div>
 					<button class="w-100 btn btn-lg btn-primary submit_calculation" onclick="calculateFaith()">Calculate</button>
 				</div>
-				<div class="w-50 result_block mx-3" id="result_block">
-					<h3>Calculation results</h3>
+				<div class="w-lg-40 w-sm-100 result_block" id="result_block">
+					<h1>Calculation results</h1>
 				</div>
 			</div>
             <?php include 'ui/footer.php';?>

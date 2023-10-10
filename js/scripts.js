@@ -108,30 +108,33 @@ function calculateFaith() {
 				current += faithGain*Math.pow(0.9, overCap);
 				time += 1;
 			}
-			
+			if(faithGain*Math.pow(0.9, overCap) <= 0.002)
+				break;
 		}
 	}
-	console.log(time);
 	var block = document.createElement('h5');
 	block.setAttribute('class', 'result text');
-	
-	if(time < 60){
-		block.innerHTML = 'Time to '+faithNeeded+' faith: '+time+' seconds';
-	} else if (time >= 60 && time < 3600){
-		mins = Math.floor(time/60);
-		seconds = time-mins*60;
-		block.innerHTML = 'Time to '+faithNeeded+' faith: '+mins+' minutes '+seconds+' seconds';
-	} else if (time >= 3600 && time < 86400){
-		hours = Math.floor(time/3600);
-		mins = Math.floor((time-hours*3600)/60);
-		seconds = time-mins*60-hours*3600;
-		block.innerHTML = 'Time to '+faithNeeded+' faith: '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+	if(current < faithNeeded) {
+		block.innerHTML = 'Unable to reach that much faith. In the reasonable amount of time only '+Math.floor(current)+' can be collected (in ~'+Math.floor(time/3600)+' hours';
 	} else {
-		days = Math.floor(time/86400);
-		hours = Math.floor((time-days*86400)/3600);
-		mins = Math.floor((time-hours*3600-days*86400)/60);
-		seconds = time-mins*60-hours*3600-days*86400;
-		block.innerHTML = 'Time to '+faithNeeded+' faith: '+days+' days '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+		if(time < 60){
+			block.innerHTML = 'Time to '+faithNeeded+' faith: '+time+' seconds';
+		} else if (time >= 60 && time < 3600){
+			mins = Math.floor(time/60);
+			seconds = time-mins*60;
+			block.innerHTML = 'Time to '+faithNeeded+' faith: '+mins+' minutes '+seconds+' seconds';
+		} else if (time >= 3600 && time < 86400){
+			hours = Math.floor(time/3600);
+			mins = Math.floor((time-hours*3600)/60);
+			seconds = time-mins*60-hours*3600;
+			block.innerHTML = 'Time to '+faithNeeded+' faith: '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+		} else {
+			days = Math.floor(time/86400);
+			hours = Math.floor((time-days*86400)/3600);
+			mins = Math.floor((time-hours*3600-days*86400)/60);
+			seconds = time-mins*60-hours*3600-days*86400;
+			block.innerHTML = 'Time to '+faithNeeded+' faith: '+days+' days '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+		}
 	}
 	document.getElementById('result_block').appendChild(block);
 }

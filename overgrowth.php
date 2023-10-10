@@ -17,8 +17,8 @@
         <!-- Page content-->
         <div class="container">
         	<div style="text-align: center;">
-	        	<div id="growth" class="w-25 calculation_block mx-3">
-					<h2>Overgrowth calculator</h2>
+	        	<div id="growth" class="w-lg-40 w-sm-100 calculation_block">
+					<h1>Overgrowth calculator</h1>
 					<div class="calculation_row">
 						<h5>Insert your overgrowt stat</h5>
 						<input class="form-control" type="number" id="overgrowth_percent" value="0">
@@ -35,8 +35,8 @@
 					<button class="w-100 btn btn-lg btn-primary submit_calculation" onclick="calculateOvergrowth()">Calculate</button>
 					<h5>Take a note: your overgrowth counter for achievement and generals quest is harvest# - 1, so harvest 7 gives only 6 overgrowth!</h5>
 				</div>
-				<div class="w-50 result_block mx-3" id="result_block">
-					<h3>Calculation results</h3>
+				<div class="w-lg-40 w-sm-100 result_block" id="result_block">
+					<h1>Calculation results</h1>
 				</div>
 			</div>
             <?php include 'ui/footer.php';?>
