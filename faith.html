@@ -15,7 +15,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="/">GooBoo helper</a>
+                <a class="navbar-brand" href="index.html">GooBoo helper</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -38,16 +38,30 @@
         <!-- Page content-->
         <div class="container">
         	<div style="text-align: center;">
-	        	<div class="w-75 index_feature_block my-2">
-					<h1>Overgrowth</h2>
-					<h5>With this calculator you can check how long do you need to complete certain achievements, quest, or just see if you can overnight crop efficiently!</h5>
-                    <button class="w-25 btn btn-lg btn-primary submit_calculation" onclick="location.href = 'overgrowth.html';">Overgrowth calculator</button>
+	        	<div class="w-25 calculation_block mx-3">
+					<h2>Faith calculator</h2>
+					<div class="calculation_row">
+						<h5>Insert your faith gain</h5>
+						<input class="form-control" type="number" id="faithGain" value="0">
+					</div>
+					<div class="calculation_row">
+						<h5>Insert your faith cap</h5>
+						<input class="form-control" type="number" id="faithCap" value="0">
+					</div>
+                    <div class="calculation_row">
+                        <h5>Insert your current faith ammount</h5>
+                        <input class="form-control" type="number" id="faithNow" value="0">
+                    </div>
+                    <div class="calculation_row">
+                        <h5>Insert how much faith you want</h5>
+                        <input class="form-control" type="number" id="faithNeeded" value="0">
+                    </div>
+
+					<button class="w-100 btn btn-lg btn-primary submit_calculation" onclick="calculateFaith()">Calculate</button>
 				</div>
-                <div class="w-75 index_feature_block my-2">
-                    <h1>Faith</h2>
-                    <h5>Calculate how long do you need till certain upgrades with your current faith cap and speed</h5>
-                    <button class="w-25 btn btn-lg btn-primary submit_calculation" onclick="location.href = 'faith.html';">Faith calculator</button>
-                </div>
+				<div class="w-50 result_block mx-3" id="result_block">
+					<h3>Calculation results</h3>
+				</div>
 			</div>
         </div>
         <!-- Bootstrap core JS-->
