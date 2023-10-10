@@ -48,10 +48,17 @@ function calculateFaith() {
 		time = 0;
 		current = faithNow;
 		while(current < faithNeeded){
-			current += faithGain*Math.pow(0.9, overCap);
-			overCap = Math.floor(current/faithCap);
-			time += 1;
-			console.log("current "+current+", time "+time);
+			if(current + faithCap < faithNeeded){
+				beforeCap = faithCap-(current-Math.floor(current/faithCap)*faithCap);
+				times = Math.floor(beforeCap/faithGain*Math.pow(0.9, overCap))+1;
+				current += faithGain*Math.pow(0.9, overCap)*times;
+				time += times;
+				overCap = Math.floor(current/faithCap);
+			} else {
+				current += faithGain*Math.pow(0.9, overCap);
+				time += 1;
+			}
+			
 		}
 	}
 	console.log(time);
