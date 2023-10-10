@@ -26,6 +26,21 @@
 					<div class="calculation_row">
 						<h5>Insert how many grow cycles you want to calculate</h5>
 						<input class="form-control" type="number" id="cycles" value="0">
+					</div>
+					<div class="calculation_row">
+						<h5>Some other speed boosts</h5>
+						<div class="form-check">
+						  <input class="form-check-input" type="checkbox" value="" id="fertiliserUsed">
+						  <label class="form-check-label" for="fertiliserUsed">
+						    Speed-grow fertiliser
+						  </label>
+						</div>
+						<div class="form-check">
+						  <input class="form-check-input" type="checkbox" value="" id="sprinklerUsed">
+						  <label class="form-check-label" for="sprinklerUsed">
+						    Sprinkler
+						  </label>
+						</div>
 					</div>  			
 					<div class="calculation_row">
 						<h5>Insert how long does crop take to grow</h5>
@@ -35,8 +50,11 @@
 					<button class="w-100 btn btn-lg btn-primary submit_calculation" onclick="calculateOvergrowth()">Calculate</button>
 					<h5>Take a note: your overgrowth counter for achievement and generals quest is harvest# - 1, so harvest 7 gives only 6 overgrowth!</h5>
 				</div>
-				<div class="w-lg-40 w-sm-100 result_block" id="result_block">
+				<div class="w-lg-40 w-sm-100 result_block">
 					<h1>Calculation results</h1>
+					<div id="result_block" class="w-100">
+						
+					</div>
 				</div>
 			</div>
             <?php include 'ui/footer.php';?>

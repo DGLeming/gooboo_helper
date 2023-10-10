@@ -93,3 +93,7 @@ h1 {
 button {
 	font-size: 1.5vmax !important;
 }
+
+.form-check-input {
+	float: none !important;
+}

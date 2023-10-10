@@ -4,16 +4,30 @@ function calculateOvergrowth () {
 	hours = document.getElementById("grow_hours").value;
 	mins = document.getElementById("gorw_minutes").value;
 	defaultGrowthTime = hours*60+mins;
+	growTimeWithBonuses = defaultGrowthTime;
+	fertiliserUsed = document.getElementById("fertiliserUsed").checked;
+	sprinklerUsed = document.getElementById("sprinklerUsed").checked;
+	if(fertiliserUsed)
+		fertiliserMultiplier = 1/1.75;
+	else fertiliserMultiplier = 1;
+	if(sprinklerUsed)
+		sprinklerMultipler = 1/2;
+	else sprinklerMultipler = 1;
 
 	overgrowthMultiplier = 1/percent*100+1;
 	cyclesTime = [];
-	cyclesTime.push(parseInt(defaultGrowthTime));
+	cyclesTime.push(parseInt(Math.ceil(defaultGrowthTime*fertiliserMultiplier*sprinklerMultipler)));
 	currentGrowthTime = defaultGrowthTime;
 	for(i=0; i < cycles-1; i++){
-		currentGrowthTime = Math.floor(currentGrowthTime*overgrowthMultiplier);
+		currentGrowthTime = Math.ceil(defaultGrowthTime*Math.pow(overgrowthMultiplier,i+1)*fertiliserMultiplier*sprinklerMultipler);
 		cyclesTime.push(currentGrowthTime+cyclesTime[i]);
 	}
-	console.log(cyclesTime);
+	var parent = document.getElementById('result_block');
+	var delChild = parent.lastChild;
+	while (delChild) {
+		parent.removeChild(delChild);
+		delChild = parent.lastChild;
+	}
 
 	for(i=0; i < cyclesTime.length; i++){
 		var block = document.createElement('h5');
