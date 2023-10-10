@@ -16,10 +16,10 @@ function calculateOvergrowth () {
 
 	overgrowthMultiplier = 1/percent*100+1;
 	cyclesTime = [];
-	cyclesTime.push(parseInt(Math.ceil(defaultGrowthTime*fertiliserMultiplier*sprinklerMultipler)));
+	cyclesTime.push(Math.ceil(Math.round(defaultGrowthTime*fertiliserMultiplier)*sprinklerMultipler));
 	currentGrowthTime = defaultGrowthTime;
 	for(i=0; i < cycles-1; i++){
-		currentGrowthTime = Math.ceil(defaultGrowthTime*Math.pow(overgrowthMultiplier,i+1)*fertiliserMultiplier*sprinklerMultipler);
+		currentGrowthTime = Math.ceil(Math.round(defaultGrowthTime*Math.pow(overgrowthMultiplier,i+1)*fertiliserMultiplier)*sprinklerMultipler);
 		cyclesTime.push(currentGrowthTime+cyclesTime[i]);
 	}
 	var parent = document.getElementById('result_block');
@@ -80,15 +80,20 @@ function calculateFaith() {
 		faithCap = parseFloat(document.getElementById("faithCap").value);
 		faithNow = parseInt(document.getElementById("faithNow").value);
 	} else {
+		//default values
 		faithGain = 0;
+		faithCap = 50;
+
+		//buildings and pray upgrades
+		//church for faith gain
 		for(i = 1; i <= jsonObj["upgrade"]["village_church"].level; i++)
 			faithGain += i*0.04;
-		
-		faithGain = faithGain;
-
-		faithCap = 50;
+		//deep worship for faith cap
 		for(i = 0; i < jsonObj["upgrade"]["village_deepWorship"].level; i++)
 			faithCap *= 1.5;
+		//temple building for cap
+		for(i = 0; i < jsonObj["upgrade"]["village_temple"].level; i++)
+			faithCap *= 1.2;
 
 		faithNow = Math.floor(jsonObj["currency"]["village_faith"]);
 
@@ -100,10 +105,6 @@ function calculateFaith() {
 		}
 
 	}
-
-	console.log(faithGain);
-	console.log(faithCap);
-	console.log(faithNow);
 
 
 	faithNeeded = parseInt(document.getElementById("faithNeeded").value);
