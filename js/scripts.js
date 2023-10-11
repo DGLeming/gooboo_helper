@@ -71,7 +71,7 @@ function switchFaithData (ttype) {
 }
 
 var jsonObj;
-$(document).on('change', '.form-faith-file', function(event) {
+$(document).on('change', '.form-file', function(event) {
   var reader = new FileReader();
 
   reader.onload = function(event) {
@@ -79,7 +79,67 @@ $(document).on('change', '.form-faith-file', function(event) {
   }
 
   reader.readAsText(event.target.files[0]);
+  if(document.location.href.includes("index"))
+  	setTimeout(checkSaveForUnlocks, 1000);
 });
+
+function checkSaveForUnlocks(){
+	globalLevel = 0;
+	keys = ["mining_0","village_0","horde_0","farm_0"];
+	for(i = 0; i < keys.length; i++)
+		globalLevel+= jsonObj["globalLevel"][keys[i]];
+
+	document.cookie = "globalLevel="+globalLevel;
+	document.location.href = "index.php";
+}
+
+function logX(val, base){
+	return Math.log(val) / Math.log(base);
+}
+
+function cryoXpGain(baseValue){
+	return Math.round(baseValue * Math.pow(1.1, baseValue) * 40);
+}
+
+function cryoXpToLevel(level){
+	return Math.pow(level + 2, 2) * Math.pow(2, level) * 25;
+}
+
+function calculateCryo() {
+	keys = ["mining","village","horde","farm"];
+	cryo = {};
+	for(i = 0; i < keys.length; i++){
+		var temp = {"xp":0,"level":0,"xpGain":0,"levelupTime":0};
+		cryo[keys[i]] = temp;
+		if(keys[i] in jsonObj["cryolab"]){
+			cryo[keys[i]]["xp"] = jsonObj["cryolab"][keys[i]]["exp"][0];
+			cryo[keys[i]]["level"] = jsonObj["cryolab"][keys[i]]["level"][0];
+		}
+	}
+	cryo["mining"]["xpGain"] = cryoXpGain(logX(jsonObj["stat"]["mining_bestPrestige0"]["total"],3));
+	cryo["village"]["xpGain"] = cryoXpGain(logX(jsonObj["stat"]["village_bestPrestige"]["total"],3));
+	cryo["horde"]["xpGain"] = cryoXpGain(logX(jsonObj["stat"]["horde_bestPrestige"]["total"],3));
+	cryo["farm"]["xpGain"] = cryoXpGain(jsonObj["stat"]["farm_bestPrestige"]["total"]);
+
+	for(i = 0; i < keys.length; i++){
+		cryo[keys[i]]["levelupTime"] = Math.ceil(cryoXpToLevel(cryo[keys[i]]["level"]) / (cryo[keys[i]]["xpGain"]/1440));
+	}
+	console.log(cryo);
+	var block = document.createElement('h5');
+	block.setAttribute('class', 'result text');
+	block.innerHTML = "Your optimal progress path is:<br />"
+	for(i = 0; i < 10; i++){
+		minKey = "mining";
+		for(j = 1; j < keys.length; j++){
+			if(cryo[keys[j]]["levelupTime"] < cryo[minKey]["levelupTime"])
+				minKey = keys[j];
+		}
+		block.innerHTML += (i+1)+") "+minKey+" lvl"+cryo[minKey]["level"]+"->"+(cryo[minKey]["level"]+1)+" in "+(Math.floor(cryo[minKey]["levelupTime"]/1440))+" days "+(Math.floor((cryo[minKey]["levelupTime"]%1440)/60))+" hours "+(cryo[minKey]["levelupTime"]%60)+" mins<br />";
+		cryo[minKey]["level"]++;
+		cryo[minKey]["levelupTime"] = Math.ceil(cryoXpToLevel(cryo[minKey]["level"]) / (cryo[minKey]["xpGain"]/1440));
+	}
+	document.getElementById('result_block').appendChild(block);
+}
 
 function calculateFaith() {
 	if(jsonObj === undefined){
@@ -119,22 +179,20 @@ function calculateFaith() {
 	if(faithNeeded != 0){
 		overCap = Math.floor(faithNow/faithCap);
 		time = 0;
-		if(faithNow < faithNeeded && faithNeeded > 0 && faithNow >= 0){
-			current = faithNow;
-			while(current < faithNeeded){
-				if(current + faithCap < faithNeeded){
-					beforeCap = faithCap-(current-Math.floor(current/faithCap)*faithCap);
-					times = Math.floor(beforeCap/faithGain*Math.pow(0.9, overCap))+1;
-					current += faithGain*Math.pow(0.9, overCap)*times;
-					time += times;
-					overCap = Math.floor(current/faithCap);
-				} else {
-					current += faithGain*Math.pow(0.9, overCap);
-					time += 1;
-				}
-				if(faithGain*Math.pow(0.9, overCap) <= 0.002)
-					break;
+		current = faithNow;
+		while(current < faithNeeded){
+			if(current + faithCap < faithNeeded){
+				beforeCap = faithCap-(current-Math.floor(current/faithCap)*faithCap);
+				times = Math.floor(beforeCap/faithGain*Math.pow(0.9, overCap))+1;
+				current += faithGain*Math.pow(0.9, overCap)*times;
+				time += times;
+				overCap = Math.floor(current/faithCap);
+			} else {
+				current += faithGain*Math.pow(0.9, overCap);
+				time += 1;
 			}
+			if(faithGain*Math.pow(0.9, overCap) <= 0.002)
+				break;
 		}
 		var block = document.createElement('h5');
 		block.setAttribute('class', 'result text');

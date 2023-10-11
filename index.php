@@ -27,6 +27,36 @@
                     <h5>Calculate how long do you need till certain upgrades with your current faith cap and speed</h5>
                     <button class="w-sm-70 w-md-50 w-lg-25 btn btn-lg btn-primary submit_calculation" onclick="location.href = 'faith.php';">Faith calculator</button>
                 </div>
+                
+                <?php
+                if($_COOKIE["globalLevel"] >= 290)
+                    echo '<div class="w-75 index_feature_block my-2">
+                    <h1>Cryo lab</h2>
+                    <h5>Calculate your optimal progress path</h5>
+                    <button class="w-sm-70 w-md-50 w-lg-25 btn btn-lg btn-primary submit_calculation" onclick="location.href = \'cryo.php\';">Cryo lab calculator</button>
+                </div>';
+                ?>
+                <div class="w-75 index_feature_block my-2">
+                    <h1>Something else?</h2>
+                    <h5>Its not all the features that this site can offer, but to see other ones you need to upload your save file to make sure you unlocked them ingame</h5>
+                    <input class="form-control form-file w-sm-70 w-md-50 w-lg-25" type="file" name="save" style="margin: auto;" />
+                    <?php 
+                    $breakpoints = array(290);
+                    if(!isset($_COOKIE["globalLevel"])) {
+                      echo "<h5>You never uploaded your save file here. Try it and it may unlock new features</h5>";
+                    } else {
+                      echo "<h5>Your last uploaded save file had ".$_COOKIE["globalLevel"]." global level</h5>";
+                    }
+                    for($i=0; $i<count($breakpoints); $i++){
+                        if($_COOKIE["globalLevel"] < $breakpoints[$i]){
+                            echo "<h5>Next feature is at ".$breakpoints[$i]." global level</h5>";
+                            break;
+                        }
+                        if($i+1 == count($breakpoints))
+                            echo "<h5>You unlocked all awaliable features here</h5>";
+                    }
+                    ?>
+                </div>
 			</div>
             <?php include 'ui/footer.php';?>
         </div>

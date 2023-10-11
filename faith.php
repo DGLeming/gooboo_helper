@@ -38,7 +38,7 @@
                     <div id="file-data" style="display: none;">
                         <div class="calculation_row">
                             <h5>Insert file</h5>
-                            <input class="form-control form-faith-file" type="file" name="save"/>
+                            <input class="form-control form-file" type="file" name="save"/>
                         </div>
                     </div>					
                     <div class="calculation_row">

@@ -7,6 +7,10 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="overgrowth.php">Overgrowth</a></li>
                 <li class="nav-item"><a class="nav-link" href="faith.php">Faith</a></li>
+                <?php
+                if($_COOKIE["globalLevel"] >= 290)
+                echo '<li class="nav-item"><a class="nav-link" href="cryo.php">Cryo lab</a></li>';
+                ?>
                 <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
