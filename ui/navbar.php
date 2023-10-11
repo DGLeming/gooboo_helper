@@ -8,8 +8,10 @@
                 <li class="nav-item"><a class="nav-link" href="overgrowth.php">Overgrowth</a></li>
                 <li class="nav-item"><a class="nav-link" href="faith.php">Faith</a></li>
                 <?php
-                if($_COOKIE["globalLevel"] >= 290)
-                echo '<li class="nav-item"><a class="nav-link" href="cryo.php">Cryo lab</a></li>';
+                if(isset($_COOKIE["globalLevel"])){
+                    if($_COOKIE["globalLevel"] >= 290)
+                    echo '<li class="nav-item"><a class="nav-link" href="cryo.php">Cryo lab</a></li>';
+                }
                 ?>
                 <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>

@@ -79,7 +79,7 @@ $(document).on('change', '.form-file', function(event) {
   }
 
   reader.readAsText(event.target.files[0]);
-  if(document.location.href.includes("index"))
+  if(document.location.href.includes("index") || document.location.href == 'https://gooboohelp.site/' || document.location.href == 'http://gooboohelp.site/')
   	setTimeout(checkSaveForUnlocks, 1000);
 });
 
