@@ -55,13 +55,20 @@ function calculateOvergrowth () {
 function switchFaithData (ttype) {
 	if(ttype == "Manual"){
 		document.getElementById("manual-data").style.display = "block";
+		$("#manual-data-button").addClass("btn-outline-secondary");
+		$("#manual-data-button").removeClass("btn-secondary");
 		document.getElementById("file-data").style.display = "none";
+		$("#file-data-button").addClass("btn-info");
+		$("#file-data-button").removeClass("btn-outline-info");		
 	} else if (ttype == "File"){
 		document.getElementById("manual-data").style.display = "none";
+		$("#manual-data-button").removeClass("btn-outline-secondary");
+		$("#manual-data-button").addClass("btn-secondary");
 		document.getElementById("file-data").style.display = "block";
+		$("#file-data-button").removeClass("btn-info");
+		$("#file-data-button").addClass("btn-outline-info");	
 	}
 }
-
 
 var jsonObj;
 $(document).on('change', '.form-faith-file', function(event) {
@@ -105,51 +112,68 @@ function calculateFaith() {
 		}
 
 	}
-
-
+	
 	faithNeeded = parseInt(document.getElementById("faithNeeded").value);
-	overCap = Math.floor(faithNow/faithCap);
-	time = 0;
-	if(faithNow < faithNeeded && faithNeeded > 0 && faithNow >= 0){
-		current = faithNow;
-		while(current < faithNeeded){
-			if(current + faithCap < faithNeeded){
-				beforeCap = faithCap-(current-Math.floor(current/faithCap)*faithCap);
-				times = Math.floor(beforeCap/faithGain*Math.pow(0.9, overCap))+1;
-				current += faithGain*Math.pow(0.9, overCap)*times;
-				time += times;
-				overCap = Math.floor(current/faithCap);
-			} else {
-				current += faithGain*Math.pow(0.9, overCap);
-				time += 1;
+	faithHours = parseInt(document.getElementById("faith_hours").value);
+	faithMins = parseInt(document.getElementById("faith_mins").value);
+	if(faithNeeded != 0){
+		overCap = Math.floor(faithNow/faithCap);
+		time = 0;
+		if(faithNow < faithNeeded && faithNeeded > 0 && faithNow >= 0){
+			current = faithNow;
+			while(current < faithNeeded){
+				if(current + faithCap < faithNeeded){
+					beforeCap = faithCap-(current-Math.floor(current/faithCap)*faithCap);
+					times = Math.floor(beforeCap/faithGain*Math.pow(0.9, overCap))+1;
+					current += faithGain*Math.pow(0.9, overCap)*times;
+					time += times;
+					overCap = Math.floor(current/faithCap);
+				} else {
+					current += faithGain*Math.pow(0.9, overCap);
+					time += 1;
+				}
+				if(faithGain*Math.pow(0.9, overCap) <= 0.002)
+					break;
 			}
-			if(faithGain*Math.pow(0.9, overCap) <= 0.002)
-				break;
 		}
-	}
-	var block = document.createElement('h5');
-	block.setAttribute('class', 'result text');
-	if(current < faithNeeded) {
-		block.innerHTML = 'Unable to reach that much faith. In the reasonable amount of time only '+Math.floor(current)+' can be collected (in ~'+Math.floor(time/3600)+' hours';
-	} else {
-		if(time < 60){
-			block.innerHTML = 'Time to '+faithNeeded+' faith: '+time+' seconds';
-		} else if (time >= 60 && time < 3600){
-			mins = Math.floor(time/60);
-			seconds = time-mins*60;
-			block.innerHTML = 'Time to '+faithNeeded+' faith: '+mins+' minutes '+seconds+' seconds';
-		} else if (time >= 3600 && time < 86400){
-			hours = Math.floor(time/3600);
-			mins = Math.floor((time-hours*3600)/60);
-			seconds = time-mins*60-hours*3600;
-			block.innerHTML = 'Time to '+faithNeeded+' faith: '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+		var block = document.createElement('h5');
+		block.setAttribute('class', 'result text');
+		if(current < faithNeeded) {
+			block.innerHTML = 'Unable to reach that much faith. In the reasonable amount of time only '+Math.floor(current)+' can be collected (in ~'+Math.floor(time/3600)+' hours';
 		} else {
-			days = Math.floor(time/86400);
-			hours = Math.floor((time-days*86400)/3600);
-			mins = Math.floor((time-hours*3600-days*86400)/60);
-			seconds = time-mins*60-hours*3600-days*86400;
-			block.innerHTML = 'Time to '+faithNeeded+' faith: '+days+' days '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+			if(time < 60){
+				block.innerHTML = 'Time to '+faithNeeded+' faith: '+time+' seconds';
+			} else if (time >= 60 && time < 3600){
+				mins = Math.floor(time/60);
+				seconds = time-mins*60;
+				block.innerHTML = 'Time to '+faithNeeded+' faith: '+mins+' minutes '+seconds+' seconds';
+			} else if (time >= 3600 && time < 86400){
+				hours = Math.floor(time/3600);
+				mins = Math.floor((time-hours*3600)/60);
+				seconds = time-mins*60-hours*3600;
+				block.innerHTML = 'Time to '+faithNeeded+' faith: '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+			} else {
+				days = Math.floor(time/86400);
+				hours = Math.floor((time-days*86400)/3600);
+				mins = Math.floor((time-hours*3600-days*86400)/60);
+				seconds = time-mins*60-hours*3600-days*86400;
+				block.innerHTML = 'Time to '+faithNeeded+' faith: '+days+' days '+hours+' hours '+mins+' minutes '+seconds+' seconds';
+			}
 		}
+		document.getElementById('result_block').appendChild(block);
 	}
-	document.getElementById('result_block').appendChild(block);
+	if(faithHours != 0 || faithMins != 0) {
+		overCap = Math.floor(faithNow/faithCap);
+		timeRequested = faithHours*3600 + faithMins * 60;
+		for(i = 0; i < timeRequested; i++){
+			faithNow += faithGain*Math.pow(0.9, overCap);
+			if(Math.floor(faithNow/faithCap) > overCap)
+				overCap++;
+		}
+
+		var block = document.createElement('h5');
+		block.setAttribute('class', 'result text');
+		block.innerHTML = "If you idle for "+faithHours+" hours "+faithMins+" mins you will have "+Math.floor(faithNow)+" faith.";
+		document.getElementById('result_block').appendChild(block);
+	}
 }
