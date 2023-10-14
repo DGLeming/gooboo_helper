@@ -122,7 +122,7 @@ function calculateCryo() {
 	cryo["farm"]["xpGain"] = cryoXpGain(jsonObj["stat"]["farm_bestPrestige"]["total"]);
 
 	for(i = 0; i < keys.length; i++){
-		cryo[keys[i]]["levelupTime"] = Math.ceil(cryoXpToLevel(cryo[keys[i]]["level"]) / (cryo[keys[i]]["xpGain"]/1440));
+		cryo[keys[i]]["levelupTime"] = Math.ceil((cryoXpToLevel(cryo[keys[i]]["level"])-cryo[keys[i]]["xp"]) / (cryo[keys[i]]["xpGain"]/1440));
 	}
 	console.log(cryo);
 	var block = document.createElement('h5');
@@ -136,6 +136,7 @@ function calculateCryo() {
 		}
 		block.innerHTML += (i+1)+") "+minKey+" lvl"+cryo[minKey]["level"]+"->"+(cryo[minKey]["level"]+1)+" in "+(Math.floor(cryo[minKey]["levelupTime"]/1440))+" days "+(Math.floor((cryo[minKey]["levelupTime"]%1440)/60))+" hours "+(cryo[minKey]["levelupTime"]%60)+" mins<br />";
 		cryo[minKey]["level"]++;
+		cryo[minKey]["xp"] = 0;
 		cryo[minKey]["levelupTime"] = Math.ceil(cryoXpToLevel(cryo[minKey]["level"]) / (cryo[minKey]["xpGain"]/1440));
 	}
 	document.getElementById('result_block').appendChild(block);
@@ -166,10 +167,12 @@ function calculateFaith() {
 
 		faithPremiumMulti = [1.25, 1.2, 1.166, 1.142, 1.125, 1.111, 1.1, 1.09, 1.083, 1.076, 1.071];
 		villagePremiumBought = jsonObj["upgrade"]["village_moreFaith"].level;
-		for(i = 0; i < villagePremiumBought; i++){
+		faithGain *= 1.25*villagePremiumBought;
+		faithCap *= 1.25*villagePremiumBought;
+		/*for(i = 0; i < villagePremiumBought; i++){
 			faithGain *= faithPremiumMulti[i];
 			faithCap *= faithPremiumMulti[i];
-		}
+		}*/
 
 	}
 	
