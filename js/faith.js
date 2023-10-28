@@ -3,28 +3,30 @@
 // 	jsonObj = JSON.parse(window.localStorage.getItem('save'));
 
 function getFaithGainFromFile(){
-	villagePremiumBought = jsonObj["upgrade"]["village_moreFaith"][1];
 	//default values
 
 	faithGain = 0;
 	//churches
-	faithGain += getSequence(1, jsonObj["upgrade"]["village_church"][1]) * 0.04;
+	if("village_church" in jsonObj["upgrade"])
+		faithGain += getSequence(1, jsonObj["upgrade"]["village_church"][1]) * 0.04;
 
 	//mosque
 	if("village_mosque" in jsonObj["upgrade"])
 		faithGain += getSequence(2, jsonObj["upgrade"]["village_mosque"][1]) * 2;
 
 	//more faith
-	faithGain *= 1+0.25*villagePremiumBought;
+	if('village_moreFaith' in jsonObj["upgrade"])
+		faithGain *= 1+0.25*jsonObj["upgrade"]["village_moreFaith"][1];
 
 	//cryolab
 	if(jsonObj.unlock.cryolabFeature == true)
-		faithGain *= 1+0.1*jsonObj.cryolab.village.level[0];
+		if('village' in jsonObj.cryolab)
+			faithGain *= 1+0.1*jsonObj.cryolab.village.level[0];
+
 	return faithGain;
 }
 
 function getFaithCapFromFile(){
-	villagePremiumBought = jsonObj["upgrade"]["village_moreFaith"][1];
 	faithCap = 50;
 
 	//deeper worship
@@ -60,11 +62,14 @@ function getFaithCapFromFile(){
 
 
 	//more faith premium
-	faithCap *= 1+0.25*villagePremiumBought;
+	if('village_moreFaith' in jsonObj["upgrade"])
+		faithCap *= 1+0.25*jsonObj["upgrade"]["village_moreFaith"][1];
+	
 
 	//cryolab
 	if(jsonObj.unlock.cryolabFeature == true)
-		faithCap *= 1+0.1*jsonObj.cryolab.village.level[0];
+		if('village' in jsonObj.cryolab)
+			faithCap *= 1+0.1*jsonObj.cryolab.village.level[0];
 
 	return faithCap;
 }
@@ -72,7 +77,7 @@ function getFaithCapFromFile(){
 function outputGottenValues(faithGain, faithCap){
 	var block = document.createElement('h6');
 	block.setAttribute('class', 'result text');
-	block.innerHTML = "Faith / s : "+faithGain+"(before reduction), faith cap : "+Math.floor(faithCap)+"</br>If those values are wrong please dm your savefile to dgleming in discord</br></br>";
+	block.innerHTML = "Faith / s : "+fixed2(faithGain)+"(before reduction), faith cap : "+Math.floor(faithCap)+"</br>If those values are wrong please dm your savefile to dgleming in discord</br></br>";
 	block.style.textAlign = "center";
 	document.getElementById('result_block').appendChild(block);
 }
@@ -95,12 +100,6 @@ function calculateFaith() {
 		overCap = Math.floor(faithNow/faithCap);
 		var time = 0;
 
-
-
-
-
-
-
 		overCap = Math.floor(faithNow/faithCap);
 		time = 0;
 
@@ -114,24 +113,6 @@ function calculateFaith() {
 			overCap++;
 			time += faithCap / gainCurrent;
 			current = overCap*faithCap;
-
-
-
-
-
-			// if(current + faithCap < faithNeeded){
-			// 	var gainCurrent = faithGain*Math.pow(0.9, overCap);
-			// 	time += faithCap / gainCurrent;
-			// 	overCap++;
-			// 	current += faithCap;
-			// } else {
-				
-			// 	//time += 1;
-			// 	time += (overCap*faithCap-current) / faithGain / Math.pow(0.9, overCap-1);
-			// 	current = faithNeeded;
-			// }
-			// if(faithGain*Math.pow(0.9, overCap) <= 0.002)
-			// 	break;
 		}
 		var block = document.createElement('h5');
 		block.setAttribute('class', 'result text');

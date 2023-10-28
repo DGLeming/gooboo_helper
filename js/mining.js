@@ -101,23 +101,27 @@ function greenCrystalMultipliers(jsonObj){
             multiplier *= 1+0.1*jsonObj.cryolab.mining.level[0];
 
     //cards
-    if("mining" in jsonObj.card.feature){
-        for(i = 0; i < jsonObj.card.feature.mining.cardEquipped.length; i++){
-            switch(jsonObj.card.feature.mining.cardEquipped[i]){
-            case 'MI-0020':
-                multiplier *= 1.2;
-                break;
-            case 'MI-0021':
-                multiplier *= 1.1;
-                break;
-            case 'MI-0022':
-                multiplier *= 1.15;
-                break;
-            case 'MI-0028':
-                multiplier *= 1.08;
-                break;
-            default:
-                break;
+    if('card' in jsonObj){
+        if('feature' in jsonObj.card){
+            if("mining" in jsonObj.card.feature){
+                for(i = 0; i < jsonObj.card.feature.mining.cardEquipped.length; i++){
+                    switch(jsonObj.card.feature.mining.cardEquipped[i]){
+                    case 'MI-0020':
+                        multiplier *= 1.2;
+                        break;
+                    case 'MI-0021':
+                        multiplier *= 1.1;
+                        break;
+                    case 'MI-0022':
+                        multiplier *= 1.15;
+                        break;
+                    case 'MI-0028':
+                        multiplier *= 1.08;
+                        break;
+                    default:
+                        break;
+                    }
+                }
             }
         }
     }
@@ -126,35 +130,36 @@ function greenCrystalMultipliers(jsonObj){
 
 function getDwellerSpeed(jsonObj, maxDepth){
     var dwellerSpeed = 0.0001 / maxDepth;
+
+    //drill fuel (scrap upgrade)
     if("mining_drillFuel" in jsonObj.upgrade)
         dwellerSpeed *= Math.pow(1.05, jsonObj.upgrade.mining_drillFuel[1]) * (jsonObj.upgrade.mining_drillFuel[1] * 0.05 + 1);
-    if("mining" in jsonObj.card.feature){
-        for(i = 0; i < jsonObj.card.feature.mining.cardEquipped.length; i++){
-            switch(jsonObj.card.feature.mining.cardEquipped[i]){
-            case 'MI-0019':
-                dwellerSpeed *= 1.75;
-                break;
-            case 'MI-0021':
-                dwellerSpeed *= 1.5;
-                break;
-            case 'MI-0025':
-                dwellerSpeed *= 1.25;
-                break;
-            default:
-                break;
+
+    //cards
+    if('card' in jsonObj){
+        if('feature' in jsonObj.card){
+            if("mining" in jsonObj.card.feature){
+                for(i = 0; i < jsonObj.card.feature.mining.cardEquipped.length; i++){
+                    switch(jsonObj.card.feature.mining.cardEquipped[i]){
+                    case 'MI-0019':
+                        dwellerSpeed *= 1.75;
+                        break;
+                    case 'MI-0021':
+                        dwellerSpeed *= 1.5;
+                        break;
+                    case 'MI-0025':
+                        dwellerSpeed *= 1.25;
+                        break;
+                    default:
+                        break;
+                    }
+                }
             }
         }
     }
     
     return dwellerSpeed;
 }
-
-// function getRewardText(depthStarting, reward, time, totalTime, totalReward, lastReward, timeInPrestige){
-//     var text1 = depthStarting+"m -> "+(depthStarting+0.5)+"m: "+reward+" in "+secondsToTime(time)+", crystals/h: "+fixed2((reward-lastReward)/time*3600, 2)+"</br>";
-//     var text2 = "Total time: "+secondsToTime(totalTime)+", crystals/h total: <p class='rateText'>"+fixed2((totalReward)/(totalTime+timeInPrestige)*3600, 2)+"</p></br>";
-//     printResultText(text1, 'h6');
-//     printResultText(text2, 'h6');
-// }
 
 function colourRates(){
     var bestIndex = 0;
@@ -181,13 +186,6 @@ function printStrategy(bestIndex) {
     block.innerHTML += "</br>It will result in rate of <b>"+parseFloat($('.rateText')[bestIndex+1].innerHTML)+"</b> crystals per hour";
     document.getElementById('result_strategy').appendChild(block);
 }
-
-// function calculateMiningTimes(json){
-//     dweller.grabValuesFromJson();
-//     dweller.calculateArrays();
-// }
-
-//calculateMiningTimes(jsonObj);
 
 dweller.initiate();
 

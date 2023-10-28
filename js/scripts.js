@@ -161,3 +161,11 @@ function printResultText(text, weight){
   block.innerHTML = text;
   document.getElementById('result_block').appendChild(block);
 }
+
+window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+    //alert("Please send this error to @dgleming  in discord </br>" + errorMsg);//or any message
+		text = "Error '"+errorMsg+"' at '"+url+"' in line "+lineNumber;
+		document.cookie = "error="+text;
+		$.get("errorHandler.php");
+    return false;
+}
