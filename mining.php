@@ -11,28 +11,23 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link href="css/main.css?v=<?php echo time()?>" rel="stylesheet" />
+        <link href="css/mining.css?v=<?php echo time()?>" rel="stylesheet" />
     </head>
     <body>
         <?php include 'ui/navbar.php';?>
         <!-- Page content-->
         <div class="container">
-            <div style="text-align: center;">
-                <h1 class="w-100" style="margin-bottom: 20px;">Faith calculator</h1>
-                <div class="w-lg-30 w-sm-100 calculation_block m-5">
-                    <h2>Strategy</h2>
-                    <div class="w-100 calculation_block">                
-                        <div class="calculation_row">
-                            <h5>Insert how much faith you want</h5>
-                            <input class="form-control" type="number" id="faithNeeded" value="0">
-                        </div>
-                        <button class="w-100 btn btn-lg btn-primary submit_calculation" onclick="calculateFaith()">Calculate</button>
-                    </div>
-                </div>
-                <div class="w-lg-60 w-sm-100 result_block">
-                    <h2>Calculation results</h2>
+        	<div style="text-align: center;">
+                <h1 class="w-100" style="margin-bottom: 20px;">Dweller calculator</h1>
+	        	<div class="w-lg-30 w-sm-100 calculation_block m-5">
+					<h2>Strategy</h2>
+                    <div id="result_strategy" class="w-100"></div>
+				</div>
+				<div class="w-lg-60 w-sm-100 result_block">
+					<h2>Calculation results</h2>
                     <div id="result_block" class="w-100"></div>
-                </div>
-            </div>
+				</div>
+			</div>
             <?php include 'ui/footer.php';?>
         </div>
         <!-- Bootstrap core JS-->
@@ -40,6 +35,6 @@
         <!-- Core theme JS-->
         <script src="js/jquery.js"></script>
         <?php include 'ui/scripts.php';?>
-        <script src="js/faith.js?v=<?php echo time()?>"></script>
+        <script src="js/mining.js?v=<?php echo time()?>"></script>
     </body>
 </html>

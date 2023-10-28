@@ -10,24 +10,35 @@
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/main.css?v=<? time()?>" rel="stylesheet" />
+        <link href="css/main.css?v=<?php echo time()?>" rel="stylesheet" />
     </head>
     <body>
         <?php include 'ui/navbar.php';?>
         <!-- Page content-->
         <div class="container">
         	<div style="text-align: center;">
-	        	<div class="w-lg-40 w-sm-100 calculation_block">
-					<h1>Cryo lab calculator</h1>
-                    <div class="calculation_row">
-                        <h5>Insert file</h5>
-                        <input class="form-control form-file" type="file" name="save"/>
-                    </div>
-					<button class="w-100 btn btn-lg btn-primary submit_calculation" onclick="calculateCryo()">Calculate</button>
+                <div class="w-100 result_block" class="cryoBlock" id="cryoStrategy">
+                    <h1>Cryo Lab</h1>
+                    <h2>Fastest path</h2>
+                </div>
+                <div class="w-100 result_block" class="cryoBlock" style="margin: 10px 0;">
+                    <h6>Values below are per level, not total</h6>
+                </div>
+				<div class="w-lg-45 w-sm-100 result_block" class="cryoBlock" id="miningBlock" style="display: none;">
+					<h2>Mining</h2>
 				</div>
-				<div class="w-lg-40 w-sm-100 result_block" id="result_block">
-					<h1>Calculation results</h1>
-				</div>
+                <div class="w-lg-45 w-sm-100 result_block" class="cryoBlock" id="villageBlock" style="display: none;">
+                    <h2>Village</h2>
+                </div>
+                <div class="w-lg-45 w-sm-100 result_block" class="cryoBlock" id="hordeBlock" style="display: none;">
+                    <h2>Horde</h2>
+                </div>
+                <div class="w-lg-45 w-sm-100 result_block" class="cryoBlock" id="farmBlock" style="display: none;">
+                    <h2>Farm</h2>
+                </div>
+                <div class="w-lg-45 w-sm-100 result_block" class="cryoBlock" id="galleryBlock" style="display: none;">
+                    <h2>Gallery</h2>
+                </div>
 			</div>
             <?php include 'ui/footer.php';?>
         </div>
@@ -35,6 +46,12 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/jquery.js"></script>
-        <script src="js/scripts.js?v=<? time()?>"></script>
+        <?php include 'ui/scripts.php';?>
+        <script src="js/cryo.js"></script>
+        <style type="text/css">
+            .result.text{
+                text-align: center;
+            }
+        </style>
     </body>
 </html>

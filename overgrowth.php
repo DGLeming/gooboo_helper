@@ -10,7 +10,7 @@
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/main.css?v=<? time()?>" rel="stylesheet" />
+        <link href="css/main.css?v=<?php echo time()?>" rel="stylesheet" />
     </head>
     <body>
         <?php include 'ui/navbar.php';?>
@@ -63,6 +63,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/jquery.js"></script>
-        <script src="js/scripts.js?v=<? time()?>"></script>
+        <?php include 'ui/scripts.php';?>
     </body>
 </html>
