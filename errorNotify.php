@@ -3,7 +3,6 @@ $error = $_COOKIE['error'];
 setcookie("error", "", time() - 3600);
 
 // сюда нужно вписать токен вашего бота
-define('TELEGRAM_TOKEN', '6639265297:AAGStCciR2o5Y0GkY6H7BTHTCUm_bqJWi-s');
 
 // сюда нужно вписать ваш внутренний айдишник
 define('TELEGRAM_CHATID', '1848007242');
