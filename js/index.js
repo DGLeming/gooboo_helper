@@ -4,6 +4,7 @@ if(window.localStorage.getItem('save') == null){
 	block.innerHTML = "It seems like i cant find your save, upload one so i can open all the features to you!";
 	document.getElementById('welcome-block').appendChild(block);
 } else {
+	$('#indexAchievmentsBlock')[0].style.display = "inline-block";
 	$('#indexMiningBlock')[0].style.display = "inline-block";
 	$('#indexVillageBlock')[0].style.display = "inline-block";
 	date = new Date(null);

@@ -19,8 +19,13 @@
         	<div style="text-align: center;">
                 <div class="w-75 index_feature_block my-2" id="welcome-block">
                     <h1>Hi!</h2>
-                    <h5>To use this sites features you need to upload your GooBoo save file below, since all those calculator that are awaliable here use data from it.</h5>
+                    <h5>To use this sites features you need to upload your GooBoo save file below, since all those calculator that are avaliable here use data from it.</h5>
                     <input class="form-control form-file w-sm-70 w-md-50 w-lg-25" type="file" name="save" style="margin: auto;" />
+                </div>
+                <div class="w-75 index_feature_block my-2" id="indexAchievmentsBlock" style="display: none;">
+                    <h1>Achievements</h2>
+                    <h5>Timers for village achievements</h5>
+                    <button class="w-sm-70 w-md-50 w-lg-25 btn btn-lg btn-primary submit_calculation" onclick="location.href = 'achievements.php';">Achievements calculator</button>
                 </div>
                 <div class="w-75 index_feature_block my-2" id="indexMiningBlock" style="display: none;">
                     <h1>Mining</h2>

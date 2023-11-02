@@ -47,7 +47,7 @@
         <!-- Core theme JS-->
         <script src="js/jquery.js"></script>
         <?php include 'ui/scripts.php';?>
-        <script src="js/cryo.js"></script>
+        <script src="js/cryo.js?v=<?php echo time()?>"></script>
         <style type="text/css">
             .result.text{
                 text-align: center;

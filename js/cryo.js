@@ -20,13 +20,11 @@ class Feature {
 				this.xpGain = cryoXpGain(jsonObj["stat"][this.key+"_bestPrestige"][1]);
 			else
 				this.xpGain = cryoXpGain(logX(jsonObj["stat"][this.key+"_bestPrestige"][1],this.logValue));
-		} else {
-			this.currentLevel = -1;
+
+			this.xpToLevelUp = cryoXpToLevel(this.currentLevel);
+			this.timeToLevelUp = Math.floor((this.xpToLevelUp-this.currentExp)/this.xpGain*3600*24);
+			this.outputUpgrades();
 		}
-		this.xpToLevelUp = cryoXpToLevel(this.currentLevel);
-		this.timeToLevelUp = Math.floor((this.xpToLevelUp-this.currentExp)/this.xpGain*3600*24);
-		this.outputUpgrades();
-		//console.log(Math.floor((cryoXpToLevel(this.currentLevel+1)-this.currentExp)/this.xpGain*3600*24));
 	}
 	levelUp(){
 		this.currentLevel++;

@@ -22,6 +22,65 @@
 	        	<div class="w-lg-30 w-sm-100 calculation_block m-5">
 					<h2>Strategy</h2>
                     <div id="result_strategy" class="w-100"></div>
+                    <div class="w-100" style="margin: auto;">
+                        <h5>You can fiddle with this numbers to see how your progress adjusts</h5></br>
+                        <div class="w-100">
+                            <!-- <div class="miningAdjustableBlock">
+                                <h6>Max broken depth this run</h6>
+                                <button type="button" class="btn btn-danger w-20 adjustable-input" disabled="false">-</button>
+                                <input class="form-control w-50 adjustable-input" type="number" value="123" placeholder="asdfasdf" readonly="">
+                                <button type="button" class="btn btn-success w-20 adjustable-input">+</button>
+                            </div> -->
+                            <div class="quantity_wrapper" id="quantity_wrapper_depth">
+                                <h6>Max broken depth this run</h6>
+                                <div class="quantity_inner">  
+                                    <button class="bt_minus">
+                                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                    <input type="text" value="1" size="2" class="quantity w-sm-50 w-lg-30" id="quantityDepth" data-min-count="0"/>
+                                    <button class="bt_plus">
+                                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                </div></br>
+                            </div>
+                            <div class="quantity_wrapper" id="quantity_wrapper_fuel" style="display: none;">
+                                <h6>Drill fuel upgrade</h6>
+                                <div class="quantity_inner">  
+                                    <button class="bt_minus">
+                                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                    <input type="text" value="1" class="quantity w-sm-50 w-lg-30" id="quantityFuel" data-min-count="0"/>
+                                    <button class="bt_plus">
+                                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                </div></br>
+                            </div>
+                            <div class="quantity_wrapper" id="quantity_wrapper_crystal" style="display: none;">
+                                <h6>Crystal drill upgrade</h6>
+                                <div class="quantity_inner">  
+                                    <button class="bt_minus">
+                                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                    <input type="text" value="1" class="quantity w-sm-50 w-lg-30" id="quantityCrystal" data-min-count="0"/>
+                                    <button class="bt_plus">
+                                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                </div></br>
+                            </div>
+                            <div class="quantity_wrapper" id="quantity_wrapper_starForge" style="display: none;">
+                                <h6>Star forge upgrade</h6>
+                                <div class="quantity_inner">  
+                                    <button class="bt_minus">
+                                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                    <input type="text" value="1" class="quantity w-sm-50 w-lg-30" id="quantityStarForge" data-min-count="0"/>
+                                    <button class="bt_plus">
+                                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 				<div class="w-lg-60 w-sm-100 result_block">
 					<h2>Calculation results</h2>

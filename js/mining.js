@@ -9,6 +9,7 @@ const dweller = {
   rewards: [],
   firstDepth: true,
   initiate: function(){
+    setupAdjustables();
     this.grabValuesFromJson();
     this.calculateArrays();
   },
@@ -18,7 +19,15 @@ const dweller = {
   grabValuesFromJson: function(){
     this.currentDepth = jsonObj.stat.mining_depthDweller0[0];
     this.startingDepth = this.currentDepth;
-    this.maxDepth = jsonObj.stat.mining_maxDepth0[0]*(0.1+0.01*jsonObj.upgrade.mining_crystalDrill[1]);
+    //this.maxDepth = jsonObj.stat.mining_maxDepth0[0];
+    this.maxDepth = $('.quantity_inner input')[0].value;
+
+    if('mining_crystalDrill' in jsonObj.upgrade){
+        //this.maxDepth *= 0.1+0.01*jsonObj.upgrade.mining_crystalDrill[1];
+        this.maxDepth *= 0.1+0.01*$('.quantity_inner input')[2].value;
+    }
+
+
     this.speed = getDwellerSpeed(jsonObj, this.maxDepth);
     this.gemMultiplier = greenCrystalMultipliers(jsonObj);
   },
@@ -86,15 +95,45 @@ const dweller = {
 
 };
 
+function setupAdjustables(){
+    //max depth
+    $('#quantityDepth')[0].value = jsonObj.stat.mining_maxDepth0[0];
+    $('#quantityDepth').data('min-count', jsonObj.stat.mining_maxDepth0[0]);
+
+    if("mining_drillFuel" in jsonObj.upgrade){
+        $('#quantityFuel')[0].value = jsonObj.upgrade.mining_drillFuel[1];
+        $('#quantityFuel').data('min-count', jsonObj.upgrade.mining_drillFuel[1]);
+        $('#quantity_wrapper_fuel')[0].style.display = 'block';
+    }
+
+    if('mining_crystalDrill' in jsonObj.upgrade){
+        $('#quantityCrystal')[0].value = jsonObj.upgrade.mining_crystalDrill[1];
+        $('#quantityCrystal').data('min-count', jsonObj.upgrade.mining_crystalDrill[1]);
+        $('#quantity_wrapper_crystal')[0].style.display = 'block';
+    }
+
+    if('mining_starForge' in jsonObj.upgrade){
+        $('#quantityStarForge')[0].value = jsonObj.upgrade.mining_starForge[1];
+        $('#quantityStarForge').data('min-count', jsonObj.upgrade.mining_starForge[1]);
+        $('#quantity_wrapper_starForge')[0].style.display = 'block';
+    }
+}
+
 
 function greenCrystalMultipliers(jsonObj){
     var multiplier = 1;
     //gem upgrade
     if("mining_moreGreenCrystal" in jsonObj.upgrade)
         multiplier *= 1+0.25*jsonObj.upgrade.mining_moreGreenCrystal[1];
+
+    // //coal upgrade
+    // if("mining_starForge" in jsonObj.upgrade)
+    //     multiplier *= 1+0.075*jsonObj.upgrade.mining_starForge[1];
+
     //coal upgrade
     if("mining_starForge" in jsonObj.upgrade)
-        multiplier *= 1+0.075*jsonObj.upgrade.mining_starForge[1];
+        multiplier *= 1+0.075*$('#quantityStarForge')[0].value;
+    
     //cryolab
     if("cryolab" in jsonObj)
         if("mining" in jsonObj.cryolab)
@@ -131,9 +170,13 @@ function greenCrystalMultipliers(jsonObj){
 function getDwellerSpeed(jsonObj, maxDepth){
     var dwellerSpeed = 0.0001 / maxDepth;
 
+    // //drill fuel (scrap upgrade)
+    // if("mining_drillFuel" in jsonObj.upgrade)
+    //     dwellerSpeed *= Math.pow(1.05, jsonObj.upgrade.mining_drillFuel[1]) * (jsonObj.upgrade.mining_drillFuel[1] * 0.05 + 1);
+
     //drill fuel (scrap upgrade)
     if("mining_drillFuel" in jsonObj.upgrade)
-        dwellerSpeed *= Math.pow(1.05, jsonObj.upgrade.mining_drillFuel[1]) * (jsonObj.upgrade.mining_drillFuel[1] * 0.05 + 1);
+        dwellerSpeed *= Math.pow(1.05, $('.quantity_inner input')[1].value) * ($('.quantity_inner input')[1].value * 0.05 + 1);
 
     //cards
     if('card' in jsonObj){
@@ -187,6 +230,46 @@ function printStrategy(bestIndex) {
     document.getElementById('result_strategy').appendChild(block);
 }
 
+function recalculateAfterChange(){
+    $('#result_strategy').empty();
+    $('#result_block').empty();
+    dweller.times = [];
+    dweller.rewards = [];
+    dweller.grabValuesFromJson();
+    dweller.calculateArrays();
+}
+
 dweller.initiate();
+
+// Убавляем кол-во по клику
+    $('.quantity_inner .bt_minus').click(function() {
+    let $input = $(this).parent().find('.quantity');
+    let count = parseInt($input.val()) - 1;
+    //count = count < 1 ? 1 : count;
+    count = count < parseInt($input.data('min-count')) ? parseInt($input.data('min-count')) : count;
+    $input.val(count);
+    recalculateAfterChange();});
+
+// Прибавляем кол-во по клику
+    $('.quantity_inner .bt_plus').click(function() {
+    let $input = $(this).parent().find('.quantity');
+    let count = parseInt($input.val()) + 1;
+    count = count > parseInt($input.data('max-count')) ? parseInt($input.data('max-count')) : count;
+    $input.val(parseInt(count));
+    recalculateAfterChange();}); 
+
+// Убираем все лишнее и невозможное при изменении поля
+    $('.quantity_inner .quantity').bind("change keyup input click", function() {
+    if (this.value.match(/[^0-9]/g)) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    }
+    if (this.value == "") {
+        this.value = 1;
+    }
+    if (this.value < parseInt($(this).data('min-count'))) {
+        this.value = parseInt($(this).data('min-count'));
+    }
+
+    recalculateAfterChange();}); 
 
 
